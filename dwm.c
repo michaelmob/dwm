@@ -1438,7 +1438,7 @@ quit(const Arg *arg)
 
 	XQueryTree(dpy, root, junk, junk, &junk, &n);
 
-	if (n == EMPTY_WINDOW_COUNT)
+	if (restart || n == EMPTY_WINDOW_COUNT)
 		running = 0;
 	else
 		printf("[dwm] not exiting (n=%d)\n", n);
