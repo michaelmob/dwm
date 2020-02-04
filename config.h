@@ -25,16 +25,18 @@ static const char *colors[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "Q", "W", "E", "R" };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class                  instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",     	          NULL,       NULL,       0,            1,           -1 },
+	{ "discord",  		  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Slack",    		  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gnome-control-center", NULL,       NULL,       0,            1,           -1 }
 };
 
 /* layout(s) */
@@ -71,7 +73,24 @@ static const char *toggleplaybackcmd[] = { "playerctl", "play-pause", NULL };
 
 
 static Key keys[] = {
+	/* asdf for hjkl */
+	{ MODKEY,                       XK_s,      incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY|ShiftMask,           	XK_s,      pushdown,       {0} },
+	{ MODKEY|ShiftMask,             XK_d,      pushup,         {0} },
+	{ MODKEY,                       XK_a,      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_f,      setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_a,      setcfact,       {.f = +0.25} },
+	{ MODKEY|ShiftMask,             XK_f,      setcfact,       {.f = -0.25} },
+
+	/* qwer for 6789 */
+	TAGKEYS(                        XK_q,                      5)
+	TAGKEYS(                        XK_w,                      6)
+	TAGKEYS(                        XK_e,                      7)
+	TAGKEYS(                        XK_r,                      8)
+
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_Escape, spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
@@ -83,7 +102,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,           	XK_j,      pushdown,       {0} },
 	{ MODKEY|ShiftMask,             XK_k,      pushup,         {0} },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_i,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
@@ -92,9 +111,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ControlMask,           XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ControlMask,           XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ControlMask,           XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
